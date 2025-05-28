@@ -82,16 +82,16 @@ class ComparisonResult(db.Model):
     shop_x_id = db.Column(db.Integer, db.ForeignKey('shops.id', name='fk_comparison_shop_x'), nullable=False)
     shop_y_id = db.Column(db.Integer, db.ForeignKey('shops.id', name='fk_comparison_shop_y'), nullable=False)
     
-    product_name = db.Column(db.String, nullable=False)
+    product_name = db.Column(db.String(255), nullable=False)
     shop_x_cost = db.Column(db.Float, nullable=False)
     shop_x_rating = db.Column(db.Float)
     shop_x_delivery_cost = db.Column(db.Float, nullable=False)
-    shop_x_payment_mode = db.Column(db.String)
+    shop_x_payment_mode = db.Column(db.String(255))
     
     shop_y_cost = db.Column(db.Float, nullable=False)
     shop_y_rating = db.Column(db.Float)
     shop_y_delivery_cost = db.Column(db.Float, nullable=False)
-    shop_y_payment_mode = db.Column(db.String)
+    shop_y_payment_mode = db.Column(db.String(255))
     
     marginal_benefit = db.Column(db.Float)
     cost_benefit = db.Column(db.Float)
@@ -103,8 +103,8 @@ class ComparisonResult(db.Model):
 class Shop(db.Model):
     __tablename__ = 'shops'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, nullable=False)
-    url = db.Column(db.String, nullable=False)
+    name = db.Column(db.String(34), nullable=False)
+    url = db.Column(db.String(34), nullable=False)
 
     # Relationships to avoid conflict with backref names
     comparisons_x = db.relationship('ComparisonResult', foreign_keys='ComparisonResult.shop_x_id', backref='shop_x_comparison', lazy=True)

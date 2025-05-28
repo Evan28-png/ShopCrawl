@@ -1,8 +1,8 @@
-"""Initial migration
+"""initial
 
-Revision ID: b25ac906b973
+Revision ID: ea53863df13a
 Revises: 
-Create Date: 2025-03-08 13:28:51.289319
+Create Date: 2025-05-28 17:01:37.478750
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'b25ac906b973'
+revision = 'ea53863df13a'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -27,8 +27,8 @@ def upgrade():
     )
     op.create_table('shops',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(), nullable=False),
-    sa.Column('url', sa.String(), nullable=False),
+    sa.Column('name', sa.String(length=34), nullable=False),
+    sa.Column('url', sa.String(length=34), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('users',
@@ -83,15 +83,15 @@ def upgrade():
     sa.Column('product_id', sa.Integer(), nullable=False),
     sa.Column('shop_x_id', sa.Integer(), nullable=False),
     sa.Column('shop_y_id', sa.Integer(), nullable=False),
-    sa.Column('product_name', sa.String(), nullable=False),
+    sa.Column('product_name', sa.String(length=255), nullable=False),
     sa.Column('shop_x_cost', sa.Float(), nullable=False),
     sa.Column('shop_x_rating', sa.Float(), nullable=True),
     sa.Column('shop_x_delivery_cost', sa.Float(), nullable=False),
-    sa.Column('shop_x_payment_mode', sa.String(), nullable=True),
+    sa.Column('shop_x_payment_mode', sa.String(length=255), nullable=True),
     sa.Column('shop_y_cost', sa.Float(), nullable=False),
     sa.Column('shop_y_rating', sa.Float(), nullable=True),
     sa.Column('shop_y_delivery_cost', sa.Float(), nullable=False),
-    sa.Column('shop_y_payment_mode', sa.String(), nullable=True),
+    sa.Column('shop_y_payment_mode', sa.String(length=255), nullable=True),
     sa.Column('marginal_benefit', sa.Float(), nullable=True),
     sa.Column('cost_benefit', sa.Float(), nullable=True),
     sa.ForeignKeyConstraint(['product_id'], ['products.id'], name='fk_comparison_product'),
