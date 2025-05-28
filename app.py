@@ -20,7 +20,8 @@ app = Flask(__name__)
 CORS(app, origins=["https://shop-crawlfront.vercel.app"])
 
 # Database configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://shopcrawl_db_user:qk7uMKmeDME51DVdEEtXeirPE7uUFBqt@dpg-cv5vg2in91rc73b9a390-a.oregon-postgres.render.com/shopcrawl_db'  # Path to your database
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://app:Pierreevan@db:3306/shopcrawl'  # Path to your database
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://evan:Pierreevan@localhost/shopcrawl'  # Path to your database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disable modification tracking
 
 # Initialize db with the app
@@ -34,31 +35,9 @@ app.config["JWT_SECRET_KEY"] = "fghsgdgfdsgf"  # Secret key for JWT
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=2)  # Set the expiration time for access tokens
 jwt = JWTManager(app)  # Initialize JWTManager
 
-# Google OAuth2 configuration
-app.secret_key = secrets.token_hex(16)
-app.config['GOOGLE_CLIENT_ID'] = '414872029170-3u2c5nboldvniesjmkgm0fhtc54a0mld.apps.googleusercontent.com'
-app.config['GOOGLE_CLIENT_SECRET'] = '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'
-app.config['GOOGLE_REDIRECT_URI'] = 'https://shopcrawlbackend-2.onrender.com/google_login/callback'
-
-client_secrets_file = os.path.join(os.path.dirname(__file__), 'client_secret.json')
-
-# ✅ Google Login Authorization Route
-@app.route("/authorize_google")
-def authorize_google():
-    """Initiates Google OAuth login."""
-    flow = Flow.from_client_secrets_file(
-        client_secrets_file=client_secrets_file,
-        scopes=[
-            "https://www.googleapis.com/auth/userinfo.profile",
-            "https://www.googleapis.com/auth/userinfo.email",
-            "openid"
-        ],
-        redirect_uri=app.config['GOOGLE_REDIRECT_URI']
-    )
-    
-    authorization_url, state = flow.authorization_url()
-    session["state"] = state
-    return redirect(authorization_url)
+@app.route('/')
+def index():
+    return ('hi there')
 
 @app.route("/google_login/callback", methods=['GET', 'POST'])
 def google_callback():
@@ -157,4 +136,4 @@ app.register_blueprint(search_history_bp)
 
 # Ensure the app runs only when executed directly
 if __name__ == "__main__":
-    app.run(debug=True)  # Start the Flask app in debug mode
+    app.run(debug=True, host='0.0.0.0', port=5000)  # Start the Flask app in debug mode
